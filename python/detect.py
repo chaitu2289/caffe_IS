@@ -15,6 +15,9 @@ TODO:
 - batch up image filenames as well: don't want to load all of them into memory
 - come up with a batching scheme that preserved order / keeps a unique ID
 """
+
+import matplotlib
+matplotlib.use('Agg')
 import numpy as np
 import pandas as pd
 import os
@@ -25,7 +28,6 @@ import caffe
 
 CROP_MODES = ['list', 'selective_search']
 COORD_COLS = ['ymin', 'xmin', 'ymax', 'xmax']
-
 
 def main(argv):
     pycaffe_dir = os.path.dirname(__file__)
@@ -151,7 +153,6 @@ def main(argv):
     df[COORD_COLS] = pd.DataFrame(
         data=np.vstack(df['window']), index=df.index, columns=COORD_COLS)
     del(df['window'])
-
     # Save results.
     t = time.time()
     if args.output_file.lower().endswith('csv'):
